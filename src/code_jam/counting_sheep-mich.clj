@@ -1,6 +1,6 @@
 (ns exercise-clojure.counting
   (:require
-    [exercise-clojure.globals :as globals]))
+    [exercise-clojure.counting.globals :as globals]))
 
 (defn is-solution-outside-limit?
   [n]
@@ -29,15 +29,14 @@
   ([n]
    (loop [i 1
           track-num []]
-    ;  (Thread/sleep 1000)
      (let [solution (* i n)
            new-track-num (add-if-not-present track-num (seq (str solution)))]
        (cond
         (is-done? new-track-num) solution
-        (is-solution-outside-limit? solution) "INSOMNIA"
+        ; (is-solution-outside-limit? solution) "INSOMNIA"
         (is-test-outside-limit? i) "INSOMNIA"
         :else
           (recur (inc i) new-track-num))))))
 
-(map-indexed #(str "Case #"(inc %1) ":" (counting-sheep %2))
-             globals/input)
+(time (map-indexed #(str "Case #"(inc %1) ":" (counting-sheep %2))
+                  globals/large-input))
