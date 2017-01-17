@@ -44,16 +44,17 @@
   (println solution "solution")
   (println all-solution "all-solution")
   (if (winning-pancake solution)
-    (println "WIN!!!!" i)
+    i
     (do
       (let [combinations (all-combination solution)
             new-i (inc i)]
-        (for [x (range (count combinations))
-              :let [test (nth combinations x)]
-              :when (not (contains? all-solution test))]
-             (revenge new-i test (conj all-solution solution)))))))
+        (loop [x 0]
+          (let [test (nth combinations x)]
+            (if test
+              (if (not (contains? all-solution test))
+                (let [solution? (revenge new-i test (conj all-solution solution))]
+                  (if solution?
+                    solution?
+                    (recur (inc i))))))))))))
 
 (revenge 0 ["-" "-" "+" "-"] #{})
-(not-every? odd? `(1 1 0))
-
-(map all-combination [["-" "-"]])
